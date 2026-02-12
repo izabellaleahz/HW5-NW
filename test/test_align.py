@@ -19,8 +19,8 @@ def test_nw_alignment():
     assert nw._gapA_matrix.shape == (5, 4)
     assert nw._gapB_matrix.shape == (5, 4)
 
-    # optimal alignment is MYQR / M-QR
-    # score = M-M(5) + gap(-10+-1) + Q-Q(5) + R-R(5) = 4
+    # check score — optimal alignment is MYQR / M-QR
+    # M-M(5) + gap(-10 + -1) + Q-Q(5) + R-R(5) = 4
     assert score == 4
 
     # spot-check align matrix along the optimal path

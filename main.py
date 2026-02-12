@@ -13,13 +13,28 @@ def main():
     br_seq, br_header = read_fasta("./data/Balaeniceps_rex_BRD2.fa")
     tt_seq, tt_header = read_fasta("./data/tursiops_truncatus_BRD2.fa")
 
-    # TODO Align all species to humans and print species in order of most similar to human BRD
-    # using gap opening penalty of -10 and a gap extension penalty of -1 and BLOSUM62 matrix
-    pass
+    # Align all species to humans using BLOSUM62, gap open = -10, gap extend = -1
+    nw = NeedlemanWunsch("./substitution_matrices/BLOSUM62.mat", -10, -1)
 
-    # TODO print all of the alignment score between each species BRD2 and human BRD2
-    # using gap opening penalty of -10 and a gap extension penalty of -1 and BLOSUM62 matrix
-    pass
+    species = [
+        ("Gallus gallus", gg_seq),
+        ("Mus musculus", mm_seq),
+        ("Balaeniceps rex", br_seq),
+        ("Tursiops truncatus", tt_seq),
+    ]
+
+    results = []
+    for name, seq in species:
+        score, _, _ = nw.align(hs_seq, seq)
+        results.append((name, score))
+
+    # Sort most similar to least similar
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    # Print species ranked by similarity and their alignment scores
+    print("Species BRD2 ranked by similarity to Human BRD2:")
+    for name, score in results:
+        print(f"  {name}: {score}")
     
 
 if __name__ == "__main__":
