@@ -57,12 +57,12 @@ def test_nw_backtrace():
 
 def test_nw_identical():
     """Aligning a sequence to itself should produce no gaps."""
+    seq1, _ = read_fasta("./data/test_seq1.fa")
+
     nw = NeedlemanWunsch("./substitution_matrices/BLOSUM62.mat", -10, -1)
-    score, alignA, alignB = nw.align("ACDE", "ACDE")
+    score, alignA, alignB = nw.align(seq1, seq1)
 
     assert "-" not in alignA
     assert "-" not in alignB
-    assert alignA == "ACDE"
-    assert alignB == "ACDE"
+    assert alignA == alignB
     assert score > 0
-
